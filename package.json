@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "launch": "node index.js"
+        "launch": "node index.js",
+        "pokemon-seed": "node ./src/utils/seeds/pokemon.js"
     },
     "keywords": [],
     "author": "",

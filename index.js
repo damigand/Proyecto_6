@@ -4,15 +4,21 @@ const PORT = 3000;
 const app = express();
 const router = express.Router();
 
-const { connectDB } = require('./src/config/db');
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+const { connectDB } = require('./src/config/db');
 connectDB();
+
+const pokemonRouter = require('./src/api/routes/pokemon');
+
+router.use('/pokemon', pokemonRouter);
+
+app.use('/', router);
 
 router.get('/', (req, res, next) => {
     res.send('Hello');
 });
-
-app.use('/', router);
 
 app.listen(PORT, () => {
     console.log(`escuchando en http://localhost:${PORT}`);
