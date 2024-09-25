@@ -11,9 +11,10 @@ const { connectDB } = require('./src/config/db');
 connectDB();
 
 const pokemonRouter = require('./src/api/routes/pokemon');
+const trainerRouter = require('./src/api/routes/trainer');
 
 router.use('/pokemon', pokemonRouter);
-
+router.use('/trainer', trainerRouter);
 app.use('/', router);
 
 router.get('/', (req, res, next) => {

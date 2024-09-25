@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "launch": "node index.js",
-        "pokemon-seed": "node ./src/utils/seeds/pokemon.js"
+        "pokemon-seed": "node ./src/utils/seeds/pokemon.js",
+        "trainer-seed": "node ./src/utils/seeds/trainer.js"
     },
     "keywords": [],
     "author": "",

@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const trainerSchema = new Schema(
     {
-        name: {},
-        age: {},
-        typeSpecialty: {},
-        //pokemon: [{}]
+        name: { type: String, required: true },
+        age: { type: Number, required: true },
+        typeSpecialty: { type: String, required: true },
+        pokemon: [{ type: mongoose.Types.ObjectId, ref: 'pokemons' }],
     },
     {
         timestamps: true,
