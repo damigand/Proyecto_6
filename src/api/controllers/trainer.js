@@ -1,9 +1,9 @@
-const Trainer = require('../models/Trainer');
-const { getRandomType } = require('../../utils/data/types');
+const Trainer = require("../models/Trainer");
+const { getRandomType } = require("../../utils/data/types");
 
 const getTrainers = async (req, res, next) => {
     try {
-        const trainers = await Trainer.find().populate('pokemon');
+        const trainers = await Trainer.find().populate("pokemon");
 
         return res.status(200).json(trainers);
     } catch (error) {
@@ -14,7 +14,7 @@ const getTrainers = async (req, res, next) => {
 const getTrainersById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const trainer = await Trainer.findById(id).populate('pokemon');
+        const trainer = await Trainer.findById(id).populate("pokemon");
 
         return res.status(200).json(trainer);
     } catch (error) {
@@ -26,7 +26,9 @@ const getTrainersByName = async (req, res, next) => {
     try {
         const { name } = req.params;
         //Regex usado para obtener "matches" sin tener en cuenta mayusculas o minusculas.
-        const trainer = await Trainer.find({ name: { $regex: name, $options: 'i' } }).populate('pokemon');
+        const trainer = await Trainer.find({ name: { $regex: name, $options: "i" } }).populate(
+            "pokemon"
+        );
 
         return res.status(200).json(trainer);
     } catch (error) {
@@ -38,7 +40,9 @@ const getTrainersByType = async (req, res, next) => {
     try {
         const { type } = req.params;
         //Regex usado para obtener "matches" sin tener en cuenta mayusculas o minusculas.
-        const trainer = await Trainer.find({ typeSpecialty: { $regex: type, $options: 'i' } }).populate('pokemon');
+        const trainer = await Trainer.find({
+            typeSpecialty: { $regex: type, $options: "i" },
+        }).populate("pokemon");
 
         return res.status(200).json(trainer);
     } catch (error) {
@@ -49,7 +53,7 @@ const getTrainersByType = async (req, res, next) => {
 const getTrainersByAge = async (req, res, next) => {
     try {
         const { age } = req.params;
-        const trainer = await Trainer.find({ age: { $gte: age } }).populate('pokemon');
+        const trainer = await Trainer.find({ age: { $gte: age } }).populate("pokemon");
         return res.status(200).json(trainer);
     } catch (error) {
         return res.status(404).json(`Error fetching data (getTrainersByAge): ${error}`);
@@ -59,7 +63,9 @@ const getTrainersByAge = async (req, res, next) => {
 const createTrainer = async (req, res, next) => {
     try {
         var type = req.body.typeSpecialty;
-        if (!type || type == 'random') {
+        //Si el tipo del entrenador viene vacío o se pone en "random",
+        //Se genera uno aleatoriamente usando getRandomType de "src/utils/data/types"
+        if (!type || type == "random") {
             type = getRandomType();
         }
 
@@ -74,7 +80,7 @@ const createTrainer = async (req, res, next) => {
         });
 
         const trainer = await newTrainer.save();
-        await trainer.populate('pokemon');
+        await trainer.populate("pokemon");
         return res.status(201).json(trainer);
     } catch (error) {
         return res.status(404).json(`Error creating data (createTrainer): ${error}`);
@@ -94,7 +100,7 @@ const editTrainer = async (req, res, next) => {
         trainer.pokemon = pokemon || trainer.pokemon;
 
         await trainer.save();
-        await trainer.populate('pokemon');
+        await trainer.populate("pokemon");
 
         return res.status(200).json(trainer);
     } catch (error) {
@@ -107,7 +113,7 @@ const deleteTrainer = async (req, res, next) => {
         const { id } = req.params;
         await Trainer.findByIdAndDelete(id);
 
-        return res.status(200).json('Trainer deleted successfully!');
+        return res.status(200).json("Trainer deleted successfully!");
     } catch (error) {
         return res.status(404).json(`Error deleting data (deleteTrainer): ${error}`);
     }
@@ -128,7 +134,7 @@ const addTrainerPokemon = async (req, res, next) => {
         }
 
         await trainer.save();
-        await trainer.populate('pokemon');
+        await trainer.populate("pokemon");
 
         return res.status(200).json(trainer);
     } catch (error) {
@@ -148,7 +154,7 @@ const deleteTrainerPokemon = async (req, res, next) => {
             await trainer.save();
         }
 
-        await trainer.populate('pokemon');
+        await trainer.populate("pokemon");
 
         return res.status(200).json(trainer);
     } catch (error) {

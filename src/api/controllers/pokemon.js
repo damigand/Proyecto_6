@@ -1,5 +1,5 @@
-const { default: mongoose } = require('mongoose');
-const Pokemon = require('../models/Pokemon');
+const { default: mongoose } = require("mongoose");
+const Pokemon = require("../models/Pokemon");
 
 const getPokemons = async (req, res, next) => {
     try {
@@ -43,7 +43,12 @@ const getPokemonsByLevel = async (req, res, next) => {
 const getPokemonsType = async (req, res, next) => {
     try {
         const { type } = req.params;
-        const pokemons = await Pokemon.find({ types: { $in: type } });
+
+        //Igual que $gt en los "Number", se puede usar "$in" en arrays de mongoDB
+        //De la misma forma que un "array.includes()"
+        const pokemons = await Pokemon.find({
+            types: { $regex: type, $options: "i" },
+        });
         return res.status(200).json(pokemons);
     } catch (error) {
         return res.status(404).json(`Error fetching data (getPokemonsType): ${error}`);
@@ -87,7 +92,7 @@ const deletePokemon = async (req, res, next) => {
         const { id } = req.params;
 
         await Pokemon.findByIdAndDelete(id);
-        return res.status(200).json('Pokemon was successfully deleted');
+        return res.status(200).json("Pokemon was successfully deleted");
     } catch (error) {
         return res.status(404).json(`Error fetching data (deletePokemon): ${error}`);
     }
